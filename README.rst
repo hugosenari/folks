@@ -26,11 +26,19 @@ Libfolks helper
 
 Since libfolks uses libgee that don't work well with GIntrospection, this package can be used to read contacts using libfolks
 
+try
+
+>>> python -m folks
+
+Or
+
+See __main__.py as example
+
 
 Features
 --------
 
-* TODO
+* List folks data
 
 Credits
 ---------
