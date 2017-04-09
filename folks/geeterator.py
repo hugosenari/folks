@@ -1,5 +1,6 @@
 from gi.repository import GObject as GO
-from .go import gtype_and_ctype_of as type_of, c_to_py
+from .go import gtype_and_ctype_of as c_to_py
+
 
 class _GeeIterator(object):
     def __init__(self, obj, it):
@@ -14,7 +15,7 @@ class _GeeIterator(object):
         while it and it.has_next():
             it.next()
             yield it
-        raise StopIteration    
+        raise StopIteration
 
 
 class GeeListIterator(_GeeIterator):
@@ -24,7 +25,7 @@ class GeeListIterator(_GeeIterator):
         self.value_type = None
         if hasattr(obj, 'get_element_type'):
             self.value_type = obj.get_element_type()
-    
+
     def __iter__(self):
         i = 0
         for it in _GeeIterator.__iter__(self):
@@ -32,7 +33,7 @@ class GeeListIterator(_GeeIterator):
             if self.value_type:
                 value = c_to_py(value, self.value_type)
             yield i, value
-            i +=1
+            i += 1
 
 
 class GeeMapIterator(_GeeIterator):
@@ -44,7 +45,7 @@ class GeeMapIterator(_GeeIterator):
         self.key_type = None
         if hasattr(obj, 'get_key_type'):
             self.key_type = obj.get_key_type()
-    
+
     def __iter__(self):
         for it in _GeeIterator.__iter__(self):
             value = it.get_value()

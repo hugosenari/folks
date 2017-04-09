@@ -1,21 +1,23 @@
 import gi
 gi.require_version('Folks', '0.6')
-from gi.repository import Folks
-from .go import c_to_py
-from .geeterator import get_iterator
+from gi.repository import Folks  # noqa: 402
+from .go import c_to_py  # noqa: 402
+from .geeterator import get_iterator  # noqa: 402
 
 
 _CHANGED = 'individuals_changed_detailed'
+
+
 class FolksListener(object):
     def __init__(self, on_ready=None, on_change=None):
         self.agg = Folks.IndividualAggregator.dup()
         self.on_ready = on_ready
         self.on_change = on_change
-    
+
     def _on_quiescent(self, *args):
         self.on_ready and self.on_ready(self.agg)
         self.on_change and self.agg.connect(_CHANGED, self.on_change)
-    
+
     def initialize(self):
         self.agg.connect('notify::is-quiescent', self._on_quiescent)
         self.agg.prepare()
@@ -71,4 +73,4 @@ def it_folks_attrs(agg):
 def it_changes(changes):
     it = get_iterator(changes)
     for old_folk, new_folk in it:
-        yield old_folk, new_folk 
+        yield old_folk, new_folk

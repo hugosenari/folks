@@ -11,9 +11,9 @@ pythonapi.PyCapsule_GetName.argtypes = (pyc.py_object,)
 pythonapi.PyCapsule_GetPointer.restype = pyc.c_void_p
 pythonapi.PyCapsule_GetPointer.argtypes = (pyc.py_object, pyc.c_char_p)
 
-################################################################################
+###############################################################################
 # GObject
-################################################################################
+###############################################################################
 
 
 class _PyGObject_Functions(pyc.Structure):
@@ -44,18 +44,22 @@ class _PyGO_CAPI(object):
     '''
     _api = None
 
-    @classmethod    
+    @classmethod
     def _set_api(cls):
         addr = capsule_ptr(gi._gobject._PyGObject_API)
-        cls._api = _PyGObject_Functions.from_address(addr)        
+        cls._api = _PyGObject_Functions.from_address(addr)
 
     @classmethod
     def to_object(cls, addr):
         cls._api or cls._set_api()
         return cls._api.pygobject_new(addr)
-################################################################################
+
+
+###############################################################################
 # GType
-################################################################################
+###############################################################################
+
+
 INT, ADDRESS, NONE, NOT_IMPLEMENTED = range(4)
 
 G_PY_INT = {
@@ -95,19 +99,19 @@ G_PY_NOT_IMPLEMENTED = {
     (GO.TYPE_INTERFACE, None),
 }
 
-TYPES_G_PY = G_PY_INT | G_PY_ADDRESS | G_PY_NONE | G_PY_NOT_IMPLEMENTED   
+TYPES_G_PY = G_PY_INT | G_PY_ADDRESS | G_PY_NONE | G_PY_NOT_IMPLEMENTED
 
-TYPES_ID = { hash(gt): (gt, ct, INT) for gt, ct in G_PY_INT }
+TYPES_ID = {hash(gt): (gt, ct, INT) for gt, ct in G_PY_INT}
 _u = TYPES_ID.update
-_u({ hash(gt): (gt, ct, ADDRESS) for gt, ct in G_PY_ADDRESS })
-_u({ hash(gt): (gt, ct, NONE) for gt, ct in G_PY_NONE })
-_u({ hash(gt): (gt, ct, NOT_IMPLEMENTED) for gt, ct in G_PY_NOT_IMPLEMENTED })
+_u({hash(gt): (gt, ct, ADDRESS) for gt, ct in G_PY_ADDRESS})
+_u({hash(gt): (gt, ct, NONE) for gt, ct in G_PY_NONE})
+_u({hash(gt): (gt, ct, NOT_IMPLEMENTED) for gt, ct in G_PY_NOT_IMPLEMENTED})
 
 
 def gtype_name_of(gtype_id=0):
     '''
     Return a name of gtype if type is a class
-    
+
     this method use glib/gobjec/gtype.c/g_type_name
     see code
     https://github.com/GNOME/glib/blob/master/gobject/gtype.c#L3787
@@ -136,7 +140,7 @@ def gtype_and_ctype_of(gtype_id=0):
 def from_int(value, gtype_id):
     py_value = value
     types = gtype_and_ctype_of(gtype_id)
-    gtype, ctype, ctg = types 
+    gtype, ctype, ctg = types
     if gtype and ctype:
         if gtype.is_a(GO.TYPE_OBJECT):
             py_value = _PyGO_CAPI.to_object(value)
@@ -152,4 +156,4 @@ def from_int(value, gtype_id):
 
 
 def c_to_py(value, gtype_id):
-    return from_int(value, gtype_id)[0] 
+    return from_int(value, gtype_id)[0]

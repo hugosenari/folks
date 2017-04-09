@@ -1,3 +1,4 @@
+import gi
 import unittest
 import ctypes as pyc
 from gi.repository import GObject as GO
@@ -86,4 +87,3 @@ class TestCToPy(unittest.TestCase):
 #         print(ptr, char_p, char_pp, hash(b'abcd\0'))
 #         result = c_to_py(ptr, GO.TYPE_STRING)
 #         self.assertEqual(b'abcd', result.value)
-

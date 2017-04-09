@@ -1,4 +1,3 @@
-from tests.test_go import *
-import unittest
+from .test_go import * 
 
 unittest.main()

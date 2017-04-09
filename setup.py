@@ -9,13 +9,9 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [
-    # TODO: put package requirements here
-]
+requirements = []
 
-test_requirements = [
-    # TODO: put package test requirements here
-]
+test_requirements = []
 
 setup(
     name='folks',
