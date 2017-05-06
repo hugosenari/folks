@@ -1,5 +1,5 @@
 from gi.repository import GObject as GO
-from .go import gtype_and_ctype_of as c_to_py
+from .go import c_to_py
 
 
 class _GeeIterator(object):

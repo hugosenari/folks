@@ -64,7 +64,6 @@ def it_folks(agg):
 def it_folks_attrs(agg):
     indies = agg.get_individuals()
     it = get_iterator(indies)
-    # print(gtype_of(it.key_type)[0], gtype_of(it.value_type)[0])
     for uid, folk in it:
         attrs = tuple(it_attrs(folk))
         yield uid, folk.get_display_name(), attrs
